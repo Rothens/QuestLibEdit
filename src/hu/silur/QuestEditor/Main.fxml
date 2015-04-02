@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.silur.QuestEditor.MainController">
+   <children>
+      <Label layoutX="24.0" layoutY="12.0" prefHeight="25.0" prefWidth="70.0" text="Quest File:" AnchorPane.topAnchor="12.0" />
+      <TextField fx:id="editFile" layoutX="94.0" layoutY="12.0" prefHeight="25.0" prefWidth="346.0" AnchorPane.leftAnchor="94.0" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="12.0" />
+      <Button fx:id="btnOpen" layoutX="452.0" layoutY="12.0" mnemonicParsing="false" onAction="#openBtnClick" text="Open..." AnchorPane.rightAnchor="82.0" AnchorPane.topAnchor="12.0" />
+      <Button fx:id="btnSave" layoutX="527.0" layoutY="12.0" mnemonicParsing="false" onAction="#saveBtnClick" prefHeight="25.0" prefWidth="69.0" text="Save" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="12.0" />
+      <Button fx:id="btnRemoveQuest" layoutX="119.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Remove" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="120.0" />
+      <Button fx:id="btnAddQuest" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Add" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+      <ListView fx:id="questListView" layoutX="14.0" layoutY="43.0" prefHeight="312.0" prefWidth="200.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="43.0" />
+      <TabPane layoutX="214.0" layoutY="43.0" prefHeight="387.0" prefWidth="515.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="214.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="43.0">
+        <tabs>
+          <Tab text="Basic">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextArea fx:id="descEdit" layoutX="138.0" layoutY="80.0" prefHeight="245.0" prefWidth="370.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="138.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="80.0" />
+                        <Label layoutX="61.0" layoutY="80.0" text="Description:" AnchorPane.topAnchor="80.0" />
+                        <TextField fx:id="titleEdit" layoutX="138.0" layoutY="2.0" prefHeight="27.0" prefWidth="355.0" AnchorPane.leftAnchor="138.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="2.0" />
+                        <Label layoutX="105.0" layoutY="7.0" text="Title:" AnchorPane.topAnchor="7.0" />
+                        <Label layoutX="62.0" layoutY="44.0" text="Questgiver:" />
+                        <Button layoutX="440.0" layoutY="41.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" text="+" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="41.0" />
+                        <Button layoutX="470.0" layoutY="41.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" text="-" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="41.0" />
+                        <ListView fx:id="giverList" layoutX="140.0" layoutY="41.0" orientation="HORIZONTAL" prefHeight="25.0" prefWidth="300.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="41.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Dialogs">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.5" layoutX="84.0" layoutY="21.0" orientation="VERTICAL" prefHeight="354.0" prefWidth="515.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <Label layoutX="227.0" layoutY="7.0" text="Ongoing:" AnchorPane.rightAnchor="234.0" AnchorPane.topAnchor="7.0" />
+                                    <TextArea fx:id="ongoingEdit" layoutX="14.0" layoutY="22.0" prefHeight="141.0" prefWidth="481.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="22.0" />
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <Label layoutX="219.0" layoutY="14.0" text="Onfinished:" AnchorPane.rightAnchor="234.0" AnchorPane.topAnchor="7.0" />
+                                    <TextArea fx:id="onfinishedEdit" layoutX="14.0" layoutY="29.0" prefHeight="129.0" prefWidth="481.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="30.0" />
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+          <Tab text="Requirements">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="btnAddDependency" layoutX="439.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Add" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="14.0" />
+                        <Button fx:id="btnRemoveDependency" layoutX="439.0" layoutY="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Remove" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="50.0">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </Button>
+                        <TableView fx:id="reqTable" layoutX="14.0" layoutY="14.0" prefHeight="335.0" prefWidth="420.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="14.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="ID" />
+                            <TableColumn prefWidth="75.0" text="Type" />
+                              <TableColumn prefWidth="75.0" text="Count" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
