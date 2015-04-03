@@ -5,11 +5,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by silur on 02/04/15.
- */
 public class Quest {
 
     public int id;
@@ -20,7 +18,17 @@ public class Quest {
     public List<Integer> QuestGivers;
     public List<Requirement> requirements;
 
-
+    public Quest(int id) {
+        this.id = id;
+        Title = "New Quest";
+        Description = "Write your quest details here";
+        OnfinishedText = "Yaay, you finished the quest!";
+        OngoingText = "Hey, this is easy! Don't mess around!";
+        QuestGivers = new ArrayList<>();
+        QuestGivers.add(0);
+        requirements = new ArrayList<>();
+        requirements.add(new Requirement(0,"Kill",10));
+    }
     public static class Requirement {
         private final IntegerProperty id;
         public final StringProperty type;

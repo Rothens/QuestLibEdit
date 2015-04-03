@@ -14,9 +14,6 @@ import java.util.List;
 
 import static hu.silur.QuestEditor.Model.Quest.*;
 
-/**
- * Created by silur on 02/04/15.
- */
 public class JSONHandler {
 
  public static List<Quest> parseJson(File input) {
@@ -31,8 +28,8 @@ public class JSONHandler {
              String desc = (String) o.get("description");
              String ong = (String) o.get("ongoing");
              String onf = (String) o.get("onfinished");
-             ArrayList<Integer> qgivers = new ArrayList<Integer>();
-             ArrayList<Integer> qpreq = new ArrayList<Integer>();
+             ArrayList<Integer> qgivers = new ArrayList<>();
+             ArrayList<Integer> qpreq = new ArrayList<>();
              Object ob = o.get("questgivers");
              if (ob != null && ob instanceof JSONArray) {
                  for (Long aLong : (Iterable<Long>) ob) {
@@ -46,8 +43,7 @@ public class JSONHandler {
                      qpreq.add(aLong.intValue());
                  }
              }
-             Quest lQuest = new Quest();
-             lQuest.id = id;
+             Quest lQuest = new Quest(id);
              lQuest.Title = title;
              lQuest.Description = desc;
              lQuest.OngoingText = ong;
@@ -89,11 +85,10 @@ public class JSONHandler {
 
              result.add(lQuest);
          }
-     } catch (IOException e) {
-         e.printStackTrace();
-     } catch (ParseException e) {
+     } catch (IOException | ParseException e) {
          e.printStackTrace();
      }
      return result;
  }
+
 }
