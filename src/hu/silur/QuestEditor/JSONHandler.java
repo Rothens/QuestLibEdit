@@ -16,79 +16,115 @@ import static hu.silur.QuestEditor.Model.Quest.*;
 
 public class JSONHandler {
 
- public static List<Quest> parseJson(File input) {
-     List<Quest> result = new ArrayList<>();
-     JSONParser jsonParser = new JSONParser();
-     try {
-         JSONArray jsonArray = (JSONArray)jsonParser.parse(new FileReader(input));
-         for (Object anArray : jsonArray) {
-             JSONObject o = (JSONObject) anArray;
-             Integer id = ((Long) o.get("id")).intValue();
-             String title = (String) o.get("title");
-             String desc = (String) o.get("description");
-             String ong = (String) o.get("ongoing");
-             String onf = (String) o.get("onfinished");
-             ArrayList<Integer> qgivers = new ArrayList<>();
-             ArrayList<Integer> qpreq = new ArrayList<>();
-             Object ob = o.get("questgivers");
-             if (ob != null && ob instanceof JSONArray) {
-                 for (Long aLong : (Iterable<Long>) ob) {
-                     qgivers.add(aLong.intValue());
-                 }
-             }
+    public static List<Quest> parseJson(File input) {
+        List<Quest> result = new ArrayList<>();
+        JSONParser jsonParser = new JSONParser();
+        try {
+            JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader(input));
+            for (Object anArray : jsonArray) {
+                JSONObject o = (JSONObject) anArray;
+                Integer id = ((Long) o.get("id")).intValue();
+                String title = (String) o.get("title");
+                String desc = (String) o.get("description");
+                String ong = (String) o.get("ongoing");
+                String onf = (String) o.get("onfinished");
+                ArrayList<Integer> qgivers = new ArrayList<>();
+                ArrayList<Integer> qpreq = new ArrayList<>();
+                Object ob = o.get("questgivers");
+                if (ob != null && ob instanceof JSONArray) {
+                    for (Long aLong : (Iterable<Long>) ob) {
+                        qgivers.add(aLong.intValue());
+                    }
+                }
 
-             ob = o.get("prerequisites");
-             if (ob != null && ob instanceof JSONArray) {
-                 for (Long aLong : (Iterable<Long>) ob) {
-                     qpreq.add(aLong.intValue());
-                 }
-             }
-             Quest lQuest = new Quest(id);
-             lQuest.Title = title;
-             lQuest.Description = desc;
-             lQuest.OngoingText = ong;
-             lQuest.OnfinishedText = onf;
-             lQuest.QuestGivers = qgivers;
-             lQuest.requirements = new ArrayList<>();
-             JSONArray reqArray = (JSONArray)o.get("required");
-             if (reqArray !=null)
-             for (Object reqObject : reqArray) {
-                 JSONObject lreqObject = (JSONObject)reqObject;
-                 Integer lId, lCount;
-                 String lType;
-                 lId = ((Long)lreqObject.get("id")).intValue();
-                 lCount=((Long)lreqObject.get("count")).intValue();
-                 switch (((Long)lreqObject.get("type")).intValue()) {
-                     case 0:
-                         lType = "Kill";
-                         break;
-                     case 1:
-                         lType = "Gather";
-                         break;
-                     case 2:
-                         lType = "Use";
-                         break;
-                     case 3:
-                         lType = "Visit";
-                         break;
-                     case 4:
-                         lType = "Talk";
-                         break;
-                     default:
-                         lType = "<ERROR>";
-                 }
+                ob = o.get("prerequisites");
+                if (ob != null && ob instanceof JSONArray) {
+                    for (Long aLong : (Iterable<Long>) ob) {
+                        qpreq.add(aLong.intValue());
+                    }
+                }
+                Quest lQuest = new Quest(id);
+                lQuest.Title = title;
+                lQuest.Description = desc;
+                lQuest.OngoingText = ong;
+                lQuest.OnfinishedText = onf;
+                lQuest.QuestGivers = qgivers;
+                lQuest.requirements = new ArrayList<>();
+                JSONArray reqArray = (JSONArray) o.get("required");
+                if (reqArray != null)
+                    for (Object reqObject : reqArray) {
+                        JSONObject lreqObject = (JSONObject) reqObject;
+                        Integer lId, lCount;
+                        String lType;
+                        lId = ((Long) lreqObject.get("id")).intValue();
+                        lCount = ((Long) lreqObject.get("count")).intValue();
+                        switch (((Long) lreqObject.get("type")).intValue()) {
+                            case 0:
+                                lType = "Kill";
+                                break;
+                            case 1:
+                                lType = "Gather";
+                                break;
+                            case 2:
+                                lType = "Use";
+                                break;
+                            case 3:
+                                lType = "Visit";
+                                break;
+                            case 4:
+                                lType = "Talk";
+                                break;
+                            default:
+                                lType = "<ERROR>";
+                        }
 
 
-                 Quest.Requirement req = new Quest.Requirement(lId,lType,lCount);
-                 lQuest.requirements.add(req);
-             }
+                        Quest.Requirement req = new Quest.Requirement(lId, lType, lCount);
+                        lQuest.requirements.add(req);
+                    }
 
-             result.add(lQuest);
-         }
-     } catch (IOException | ParseException e) {
-         e.printStackTrace();
-     }
-     return result;
- }
+                result.add(lQuest);
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
+    public static JSONArray makeJson(List<Quest> questList) {
+        JSONArray result = new JSONArray();
+        for (Quest q : questList) {
+
+            JSONObject questObject = new JSONObject();
+            questObject.put("id", q.id);
+            questObject.put("title", q.Title);
+            questObject.put("description", q.Description);
+            questObject.put("ongoing", q.OngoingText);
+            questObject.put("onfinished", q.OnfinishedText);
+            JSONArray reqs = new JSONArray();
+            for (Quest.Requirement req : q.requirements) {
+                JSONObject currentReq = new JSONObject();
+                currentReq.put("id", req.getId());
+                currentReq.put("type", req.getType());
+                currentReq.put("count", req.getCount());
+                reqs.add(currentReq);
+            }
+            questObject.put("required", reqs);
+
+//            JSONArray preReqs = new JSONArray();
+//            for (Integer p : q.Prerequisites) {
+//                preReqs.add(p);
+//            }
+            JSONArray givers = new JSONArray();
+            for (Integer g : q.QuestGivers) {
+                givers.add(g);
+            }
+            questObject.put("questgivers",givers);
+            result.add(questObject);
+
+        }
+        return result;
+    }
 }
+
+

@@ -13,7 +13,7 @@ import javafx.stage.FileChooser;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
-import java.io.File;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -124,11 +124,25 @@ public class MainController implements Initializable{
 
         }
 
+
     }
     @FXML private void saveBtnClick() {
-        //TODO Save JSON file
-        if (file!=null && file.exists() && file.canWrite())
-            System.out.println("File is writable");
+
+        if (file!=null && file.exists() && file.canWrite()) {
+            Writer writer = null;
+
+            try {
+                writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(file.getPath()), "utf-8"));
+                writer.write(JSONHandler.makeJson(questList).toJSONString());
+            } catch (IOException ex) {
+                // report
+            } finally {
+                try {
+                    writer.close();
+                } catch (Exception ex) {}
+            }
+        }
     }
 
     @FXML private void btnAddQuestClick() {
