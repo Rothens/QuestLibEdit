@@ -42,5 +42,18 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+<<<<<<< HEAD
 .iml
 out/
+=======
+android/libs/armeabi/
+android/libs/armeabi-v7a/
+android/libs/x86/
+android/gen/
+.idea/
+*.ipr
+*.iws
+*.iml
+out/
+com_crashlytics_export_strings.xml
+>>>>>>> 8929a9a0b2fd55e05deb010ab30cef32d4f5d2f0

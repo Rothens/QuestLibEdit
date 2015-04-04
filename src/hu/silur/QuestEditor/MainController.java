@@ -113,6 +113,7 @@ public class MainController implements Initializable{
         fileChooser.getExtensionFilters().add(extFilter);
         //Show open file dialog
         file = fileChooser.showOpenDialog(null);
+        if(file == null) return;
         editFile.setText(file.getPath());
         if (file.exists() && file.canRead()) {
             questList = JSONHandler.parseJson(file);
