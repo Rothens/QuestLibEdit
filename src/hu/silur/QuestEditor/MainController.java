@@ -1,6 +1,7 @@
 package hu.silur.QuestEditor;
 
 import hu.silur.QuestEditor.Model.Quest;
+import hu.silur.QuestEditor.Model.ReqType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -134,7 +135,7 @@ public class MainController implements Initializable{
             try {
                 writer = new BufferedWriter(new OutputStreamWriter(
                         new FileOutputStream(file.getPath()), "utf-8"));
-                writer.write(JSONHandler.makeJson(questList).toJSONString());
+                writer.write(JSONHandler.makePrettyJson(questList));
             } catch (IOException ex) {
                 // report
             } finally {
@@ -164,7 +165,7 @@ public class MainController implements Initializable{
 
     }
     @FXML private void btnAddDependencyClick() {
-        selectedQuest.requirements.add(new Quest.Requirement(0,"Kill",10));
+        selectedQuest.requirements.add(new Quest.Requirement(0, ReqType.KILL,10));
         updateReqTable();
     }
     @FXML private void btnRemoveDependencyClick() {

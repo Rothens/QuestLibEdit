@@ -27,12 +27,13 @@ public class Quest {
         QuestGivers = new ArrayList<>();
         QuestGivers.add(0);
         requirements = new ArrayList<>();
-        requirements.add(new Requirement(0,"Kill",10));
+        requirements.add(new Requirement(0,ReqType.KILL,10));
     }
     public static class Requirement {
         private final IntegerProperty id;
         public final StringProperty type;
         public final IntegerProperty count;
+        private ReqType rType;
 
         public int getId() {
             return id.get();
@@ -59,10 +60,17 @@ public class Quest {
             this.count.set(count);
         }
 
-        public Requirement(Integer _id, String _type, Integer _count) {
+        public ReqType getrType(){
+            return rType;
+        }
+
+        public Requirement(Integer _id, ReqType rType, Integer _count) {
             this.id = new SimpleIntegerProperty(_id);
-            this.type = new SimpleStringProperty(_type);
+            this.rType = rType;
+            this.type = new SimpleStringProperty(rType.getName());
             this.count = new SimpleIntegerProperty(_count);
         }
+
+
     }
 }

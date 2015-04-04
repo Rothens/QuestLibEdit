@@ -1,6 +1,7 @@
 package hu.silur.QuestEditor;
 
 import hu.silur.QuestEditor.Model.Quest;
+import hu.silur.QuestEditor.Model.ReqType;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -55,31 +56,11 @@ public class JSONHandler {
                     for (Object reqObject : reqArray) {
                         JSONObject lreqObject = (JSONObject) reqObject;
                         Integer lId, lCount;
-                        String lType;
                         lId = ((Long) lreqObject.get("id")).intValue();
                         lCount = ((Long) lreqObject.get("count")).intValue();
-                        switch (((Long) lreqObject.get("type")).intValue()) {
-                            case 0:
-                                lType = "Kill";
-                                break;
-                            case 1:
-                                lType = "Gather";
-                                break;
-                            case 2:
-                                lType = "Use";
-                                break;
-                            case 3:
-                                lType = "Visit";
-                                break;
-                            case 4:
-                                lType = "Talk";
-                                break;
-                            default:
-                                lType = "<ERROR>";
-                        }
-
-
-                        Quest.Requirement req = new Quest.Requirement(lId, lType, lCount);
+                        int type = ((Long) lreqObject.get("type")).intValue();
+                        type = Math.min(ReqType.values().length, Math.max(0, type)); //clamp the values, so we won't go OOB
+                        Quest.Requirement req = new Quest.Requirement(lId, ReqType.values()[type], lCount);
                         lQuest.requirements.add(req);
                     }
 
@@ -89,6 +70,58 @@ public class JSONHandler {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public static String makePrettyJson(List<Quest> questList) {
+        String s = makeJson(questList).toJSONString();
+
+        StringBuilder sb = new StringBuilder();
+        int depth = 0;
+        boolean inStr = false;
+        boolean newline = false;
+        boolean escaped = false;
+        for(char c: s.toCharArray()){
+            if(newline){
+                sb.append("\r\n");
+                newline = false;
+                for(int i = 0; i < depth; i++){
+                    sb.append("  ");
+                }
+            }
+
+
+
+            if(c == '"' && !escaped){
+                inStr = !inStr;
+            }
+            escaped = inStr && c == '\\';
+
+            if(!inStr) {
+                if (isOpen(c)) depth++;
+                if (isClose(c)) {
+                    depth--;
+                    sb.append("\r\n");
+                    for(int i = 0; i < depth; i++){
+                        sb.append("  ");
+                    }
+                }
+
+                if ((isOpen(c) || c == ',')) {
+                    newline = true;
+                }
+            }
+            sb.append(c);
+        }
+
+        return sb.toString();
+    }
+
+    private static boolean isOpen(char c){
+        return c == '{' || c == '[';
+    }
+
+    private static boolean isClose(char c){
+        return c == '}' || c == ']';
     }
 
     public static JSONArray makeJson(List<Quest> questList) {
@@ -105,7 +138,7 @@ public class JSONHandler {
             for (Quest.Requirement req : q.requirements) {
                 JSONObject currentReq = new JSONObject();
                 currentReq.put("id", req.getId());
-                currentReq.put("type", req.getType());
+                currentReq.put("type", req.getrType().ordinal());
                 currentReq.put("count", req.getCount());
                 reqs.add(currentReq);
             }
@@ -123,6 +156,7 @@ public class JSONHandler {
             result.add(questObject);
 
         }
+
         return result;
     }
 }
