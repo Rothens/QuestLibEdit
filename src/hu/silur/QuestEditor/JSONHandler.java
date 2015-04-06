@@ -149,9 +149,7 @@ public class JSONHandler {
 //                preReqs.add(p);
 //            }
             JSONArray givers = new JSONArray();
-            for (Integer g : q.QuestGivers) {
-                givers.add(g);
-            }
+            givers.addAll(q.QuestGivers);
             questObject.put("questgivers",givers);
             result.add(questObject);
 
