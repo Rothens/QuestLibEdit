@@ -17,7 +17,6 @@ import javafx.util.StringConverter;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -36,6 +35,7 @@ public class MainController implements Initializable{
     @FXML private TabPane tabPane;
     @FXML private Button btnAddQuest;
     @FXML private Button btnRemoveQuest;
+    @FXML private ListView<Integer> prereqList;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         questListView.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> {
@@ -50,6 +50,7 @@ public class MainController implements Initializable{
                 ongoingEdit.setText(selectedQuest.OngoingText);
                 onfinishedEdit.setText(selectedQuest.OnfinishedText);
                 updateReqTable();
+                UpdatePrerequisites();
             }
         });
 
@@ -65,6 +66,36 @@ public class MainController implements Initializable{
         countColumn.setCellValueFactory(
                 new PropertyValueFactory<Quest.Requirement, Integer>("count")
         );
+
+        prereqList.setEditable(true);
+
+        prereqList.setCellFactory(new Callback<ListView<Integer>, ListCell<Integer>>() {
+
+            @Override
+            public ListCell<Integer> call(ListView<Integer> param) {
+                return new TextFieldListCell<Integer>(new StringConverter<Integer>() {
+
+                    @Override
+                    public String toString(Integer object) {
+                        return object.toString();
+                    }
+
+                    @Override
+                    public Integer fromString(String string) {
+                        return Integer.parseInt(string);
+                    }
+                });
+            }
+
+        });
+        prereqList.setOnEditCommit(new EventHandler<ListView.EditEvent<Integer>>() {
+            @Override
+            public void handle(ListView.EditEvent<Integer> cellEditEvent) {
+                selectedQuest.Prerequisites.set(cellEditEvent.getIndex(), cellEditEvent.getNewValue());
+                UpdatePrerequisites();
+            }
+        });
+
 
         giverList.setEditable(true);
 
@@ -234,6 +265,21 @@ public class MainController implements Initializable{
             giverList.getSelectionModel().selectLast();
         }
     }
+
+    @FXML private void btnAddQuestPrerequisiteClick() {
+        selectedQuest.Prerequisites.add(0);
+        UpdatePrerequisites();
+    }
+
+    @FXML private void btnRemoveQuestPrerequisiteClick() {
+        int i = prereqList.getSelectionModel().getSelectedIndex();
+        if (i!=-1) {
+            selectedQuest.Prerequisites.remove(i);
+            UpdatePrerequisites();
+            giverList.getSelectionModel().selectLast();
+        }
+    }
+
     private void updateQuestList() {
         questListView.getSelectionModel().clearSelection();
         ObservableList<String> observableQuestList =
@@ -252,6 +298,12 @@ public class MainController implements Initializable{
         ObservableList<Integer> givers = FXCollections.observableArrayList();
         givers.addAll(selectedQuest.QuestGivers);
         giverList.setItems(givers);
+    }
+    private void UpdatePrerequisites() {
+        ObservableList<Integer> prereqs = FXCollections.observableArrayList();
+        prereqs.addAll(selectedQuest.Prerequisites);
+        prereqList.setItems(prereqs);
+
     }
 
 }

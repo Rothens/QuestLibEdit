@@ -17,6 +17,7 @@ public class Quest {
     public String OnfinishedText;
     public List<Integer> QuestGivers;
     public List<Requirement> requirements;
+    public List<Integer> Prerequisites;
 
     public Quest(int id) {
         this.id = id;
@@ -26,8 +27,10 @@ public class Quest {
         OngoingText = "Hey, this is easy! Don't mess around!";
         QuestGivers = new ArrayList<>();
         QuestGivers.add(0);
+        Prerequisites = new ArrayList<>();
         requirements = new ArrayList<>();
         requirements.add(new Requirement(0,ReqType.KILL,10));
+
     }
     public static class Requirement {
         private final IntegerProperty id;

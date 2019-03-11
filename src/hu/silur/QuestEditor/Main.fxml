@@ -20,14 +20,18 @@
                  <content>
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                          <children>
-                             <TextArea fx:id="descEdit" layoutX="138.0" layoutY="80.0" prefHeight="245.0" prefWidth="370.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="138.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="80.0" />
-                             <Label layoutX="61.0" layoutY="80.0" text="Description:" AnchorPane.topAnchor="80.0" />
+                             <TextArea fx:id="descEdit" layoutX="138.0" layoutY="111.0" prefHeight="214.0" prefWidth="370.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="138.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="111.0" />
+                             <Label layoutX="54.0" layoutY="104.0" text="Description:" AnchorPane.topAnchor="104.0" />
                              <TextField fx:id="titleEdit" layoutX="138.0" layoutY="2.0" prefHeight="27.0" prefWidth="355.0" AnchorPane.leftAnchor="138.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="2.0" />
                              <Label layoutX="105.0" layoutY="7.0" text="Title:" AnchorPane.topAnchor="7.0" />
                              <Label layoutX="62.0" layoutY="44.0" text="Questgiver:" />
                              <Button layoutX="440.0" layoutY="41.0" mnemonicParsing="false" onAction="#btnAddQuestGiverClick" prefHeight="25.0" prefWidth="30.0" text="+" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="41.0" />
                              <Button layoutX="470.0" layoutY="41.0" mnemonicParsing="false" onAction="#btnRemoveQuestGiverClick" prefHeight="25.0" prefWidth="30.0" text="-" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="41.0" />
                              <ListView fx:id="giverList" editable="true" layoutX="140.0" layoutY="41.0" orientation="HORIZONTAL" prefHeight="25.0" prefWidth="300.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="41.0" />
+                        <Label layoutX="49.0" layoutY="75.0" text="Prerequisites:" />
+                        <ListView fx:id="prereqList" editable="true" layoutX="140.0" layoutY="75.0" orientation="HORIZONTAL" prefHeight="25.0" prefWidth="301.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="75.0" />
+                        <Button layoutX="441.0" layoutY="75.0" mnemonicParsing="false" onAction="#btnAddQuestPrerequisiteClick" text="+" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="75.0" />
+                        <Button layoutX="474.0" layoutY="75.0" mnemonicParsing="false" onAction="#btnRemoveQuestPrerequisiteClick" text="-" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="75.0" />
                          </children>
                      </AnchorPane>
                  </content>
