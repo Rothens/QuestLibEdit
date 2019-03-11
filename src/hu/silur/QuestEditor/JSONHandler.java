@@ -63,7 +63,7 @@ public class JSONHandler {
                         Quest.Requirement req = new Quest.Requirement(lId, ReqType.values()[type], lCount);
                         lQuest.requirements.add(req);
                     }
-
+                lQuest.Prerequisites = qpreq;
                 result.add(lQuest);
             }
         } catch (IOException | ParseException e) {
@@ -144,10 +144,11 @@ public class JSONHandler {
             }
             questObject.put("required", reqs);
 
-//            JSONArray preReqs = new JSONArray();
-//            for (Integer p : q.Prerequisites) {
-//                preReqs.add(p);
-//            }
+           JSONArray preReqs = new JSONArray();
+            for (Integer p : q.Prerequisites) {
+                preReqs.add(p);
+            }
+            questObject.put("prerequisites", preReqs);
             JSONArray givers = new JSONArray();
             givers.addAll(q.QuestGivers);
             questObject.put("questgivers",givers);
