@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.FileChooser;
 import javafx.util.Callback;
@@ -65,6 +66,35 @@ public class MainController implements Initializable{
                 new PropertyValueFactory<Quest.Requirement, Integer>("count")
         );
 
+        giverList.setEditable(true);
+
+        giverList.setCellFactory(new Callback<ListView<Integer>, ListCell<Integer>>() {
+
+            @Override
+            public ListCell<Integer> call(ListView<Integer> param) {
+                return new TextFieldListCell<Integer>(new StringConverter<Integer>() {
+
+                    @Override
+                    public String toString(Integer object) {
+                        return object.toString();
+                    }
+
+                    @Override
+                    public Integer fromString(String string) {
+                        return Integer.parseInt(string);
+                    }
+                });
+            }
+
+        });
+        giverList.setOnEditCommit(new EventHandler<ListView.EditEvent<Integer>>() {
+            @Override
+            public void handle(ListView.EditEvent<Integer> cellEditEvent) {
+                selectedQuest.QuestGivers.set(cellEditEvent.getIndex(), cellEditEvent.getNewValue());
+                updateGiverList();
+            }
+        });
+
        StringConverter<Integer> intToString = new StringConverter<Integer>() {
             @Override
             public String toString(Integer integer) {
@@ -99,6 +129,19 @@ public class MainController implements Initializable{
                 reqTable.getItems().get(cellEditEvent.getTablePosition().getRow())
                         .setCount(cellEditEvent.getNewValue());
             }
+        });
+
+        titleEdit.textProperty().addListener((observable, oldValue, newValue) -> {
+            selectedQuest.Title = newValue;
+        });
+        descEdit.textProperty().addListener((observable, oldValue, newValue) -> {
+            selectedQuest.Description = newValue;
+        });
+        ongoingEdit.textProperty().addListener((observable, oldValue, newValue) -> {
+            selectedQuest.OngoingText = newValue;
+        });
+        onfinishedEdit.textProperty().addListener((observable, oldValue, newValue) -> {
+            selectedQuest.OnfinishedText = newValue;
         });
 
     }
@@ -161,6 +204,7 @@ public class MainController implements Initializable{
             updateQuestList();
             questListView.getSelectionModel().selectLast();
         }
+
 
 
     }
